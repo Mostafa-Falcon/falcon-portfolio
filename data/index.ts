@@ -205,13 +205,16 @@ export const socialMedia = [
   {
     id: 1,
     img: "/git.svg",
+    url:'https://github.com/Mostafa-Falcon'
   },
   {
     id: 2,
     img: "/twit.svg",
+    url:'https://x.com/FalconMost61813'
   },
   {
     id: 3,
     img: "/link.svg",
+    url:'https://www.linkedin.com/in/mostafa-falcon-42b29a36a/'
   },
 ];
