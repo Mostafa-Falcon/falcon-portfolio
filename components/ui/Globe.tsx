@@ -147,7 +147,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
     // Function to process raw data into globe points data
     const _buildData = useCallback(() => {
         const arcs = data;
-        let points = [];
+        const points = [];
 
         for (let i = 0; i < arcs.length; i++) {
             const arc = arcs[i];
