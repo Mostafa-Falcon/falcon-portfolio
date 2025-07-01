@@ -121,13 +121,13 @@ export function Globe({ globeConfig, data }: WorldProps) {
     // Effect to build initial globe data and material properties when globeRef is ready
     useEffect(() => {
         if (globeRef.current) {
-            _buildMaterial();
-            _buildData();
+            buildMaterial();
+            buildData();
         }
     }, [globeRef.current, defaultProps.globeColor, defaultProps.emissive, defaultProps.emissiveIntensity, defaultProps.shininess, data]); // Added data to dependencies
 
     // Function to set globe material properties
-    const _buildMaterial = () => {
+    const buildMaterial = () => {
         if (!globeRef.current) return;
 
         const globeMaterial = globeRef.current.globeMaterial() as unknown as {
@@ -144,7 +144,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
     };
 
     // Function to process raw data into globe points data
-    const _buildData = () => {
+    const buildData = () => {
         const arcs = data; // Use the provided data
         let points = [];
 

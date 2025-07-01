@@ -23,7 +23,7 @@ const RecentProjects = () => {
                                  lg:rounded-3xl bg-[#13162d]'>
                                     <Image src='/bg.png' alt='bg-img' />
                                 </div>
-                                <img src={img} alt={title} className='z-10 absolute bottom-0' />
+                                <Image src={img} alt={title} className='z-10 absolute bottom-0' />
                             </div>
                             <h1 className='font-bold lg:text-2xl md:text-xl text-base line-clamp-1'>
                                 {title}
