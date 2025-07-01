@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import { Color, Scene, Fog, PerspectiveCamera, Vector3 } from "three";
 import ThreeGlobe from "three-globe";
 import { useThree, Canvas, extend, type ThreeElement } from "@react-three/fiber";
@@ -121,13 +121,13 @@ export function Globe({ globeConfig, data }: WorldProps) {
     // Effect to build initial globe data and material properties when globeRef is ready
     useEffect(() => {
         if (globeRef.current) {
-            buildMaterial();
-            buildData();
+            _buildMaterial();
+            _buildData();
         }
     }, [globeRef.current, defaultProps.globeColor, defaultProps.emissive, defaultProps.emissiveIntensity, defaultProps.shininess, data]); // Added data to dependencies
 
     // Function to set globe material properties
-    const buildMaterial = () => {
+    const _buildMaterial = useCallback(() => {
         if (!globeRef.current) return;
 
         const globeMaterial = globeRef.current.globeMaterial() as unknown as {
@@ -136,24 +136,23 @@ export function Globe({ globeConfig, data }: WorldProps) {
             emissiveIntensity: number;
             shininess: number;
         };
-        // Apply colors and intensity from defaultProps, ensuring string inputs
+
         globeMaterial.color = new Color(String(defaultProps.globeColor));
         globeMaterial.emissive = new Color(String(defaultProps.emissive));
         globeMaterial.emissiveIntensity = defaultProps.emissiveIntensity;
         globeMaterial.shininess = defaultProps.shininess;
-    };
+    }, [defaultProps.globeColor, defaultProps.emissive, defaultProps.emissiveIntensity, defaultProps.shininess]);
+
 
     // Function to process raw data into globe points data
-    const buildData = () => {
-        const arcs = data; // Use the provided data
+    const _buildData = useCallback(() => {
+        const arcs = data;
         let points = [];
 
-        // Generate points for both start and end of each arc
         for (let i = 0; i < arcs.length; i++) {
             const arc = arcs[i];
-            // Ensure arc.color is a string before passing to hexToRgb
             const rgb = hexToRgb(String(arc.color));
-            if (rgb) { // Ensure RGB conversion was successful
+            if (rgb) {
                 points.push({
                     size: defaultProps.pointSize,
                     order: arc.order,
@@ -171,7 +170,6 @@ export function Globe({ globeConfig, data }: WorldProps) {
             }
         }
 
-        // Filter out duplicate points based on lat/lng to avoid redundant rendering
         const filteredPoints = points.filter(
             (v, i, a) =>
                 a.findIndex((v2) =>
@@ -181,34 +179,17 @@ export function Globe({ globeConfig, data }: WorldProps) {
                 ) === i
         );
 
-        setGlobeData(filteredPoints); // Update the state with processed points
-    };
+        setGlobeData(filteredPoints);
+    }, [data, defaultProps.pointSize]);
+
 
     // Effect to update globe data properties once globeData is ready
     useEffect(() => {
-        if (globeRef.current && globeData) {
-            // Set up globe polygon properties (country borders, removed for now as local data is unavailable)
-            // If you have a public URL for a GeoJSON file, you can fetch it and enable this:
-            // fetch('YOUR_PUBLIC_GEOJSON_URL')
-            //     .then(res => res.json())
-            //     .then(countriesData => {
-            //         globeRef.current
-            //             .hexPolygonsData(countriesData.features)
-            //             .hexPolygonResolution(3)
-            //             .hexPolygonMargin(0.7)
-            //             .hexPolygonColor(() => defaultProps.polygonColor);
-            //     }).catch(error => console.error("Error loading country data:", error));
-
-
-            // Set atmosphere properties
-            globeRef.current
-                .showAtmosphere(defaultProps.showAtmosphere)
-                .atmosphereColor(String(defaultProps.atmosphereColor)) // Ensure string
-                .atmosphereAltitude(defaultProps.atmosphereAltitude);
-
-            startAnimation(); // Start the arc and ring animations
+        if (globeRef.current) {
+            _buildMaterial();
+            _buildData();
         }
-    }, [globeData, defaultProps]);
+    }, [_buildMaterial, _buildData]);
 
     // Function to configure and start arc and ring animations
     const startAnimation = () => {
