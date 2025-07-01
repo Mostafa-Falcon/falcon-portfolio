@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     siteName: 'Mostafa Falcon',
     images: [
       {
-        url: '/thumbnail.png', // المسار النسبي للصورة
+        url: 'https://mostafa-falcon.vercel.app/thumbnail.png', // المسار النسبي للصورة
         width: 1200,
         height: 630,
         alt: 'Mostafa Falcon Portfolio',
