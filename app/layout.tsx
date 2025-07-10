@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./Provider";
+import VisitTracker from "./VisitTracker";
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -36,6 +37,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
@@ -45,6 +48,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <VisitTracker />
           {children}
         </ThemeProvider>
       </body>
