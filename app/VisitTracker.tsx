@@ -33,7 +33,7 @@ async function recordVisit(deviceType: "mobile" | "desktop" | "unknown") {
 export default function VisitTracker() {
     useEffect(() => {
         // سجل مرة واحدة في اليوم لكل زائر
-        const lastLogged = localStorage.getItem("visit-logged");
+        // const lastLogged = localStorage.getItem("visit-logged");
         const today = new Date().toISOString().slice(0, 10);
 
         // if (lastLogged !== today) {
