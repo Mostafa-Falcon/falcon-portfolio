@@ -13,7 +13,7 @@ function getDeviceType() {
 // 🔹 إضافة أو تحديث الزيارة
 async function recordVisit(deviceType: "mobile" | "desktop" | "unknown") {
     const today = new Date().toISOString().slice(0, 10);  // YYYY-MM-DD
-    const docRef = doc(db, "visits", today);
+    const docRef = doc(db, 'portfolio', "visits", today);
 
     const existing = await getDoc(docRef);
 
