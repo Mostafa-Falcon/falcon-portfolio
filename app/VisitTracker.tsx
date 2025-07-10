@@ -36,11 +36,11 @@ export default function VisitTracker() {
         const lastLogged = localStorage.getItem("visit-logged");
         const today = new Date().toISOString().slice(0, 10);
 
-        if (lastLogged !== today) {
+        // if (lastLogged !== today) {
             const device = getDeviceType();
             recordVisit(device);
             localStorage.setItem("visit-logged", today);
-        }
+        // }
     }, []);
 
     return null;
